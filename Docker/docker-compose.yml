@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    container_name: AUTO_PARTS_DIRECTORY
+    container_name: RECRUITMENT_SERVICE_CONTAINER
     build:
       context: services/postgres
       dockerfile: Dockerfile.development
