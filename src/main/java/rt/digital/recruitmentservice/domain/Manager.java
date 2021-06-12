@@ -10,6 +10,7 @@ public class Manager{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_manager")
     private Long id;
 
     @Column(name = "firstname")
@@ -21,7 +22,11 @@ public class Manager{
     @Column(name = "lastname")
     private String lastName;
 
+    @OneToMany(mappedBy = "manager")
     private Set<Contact> contacts;
+
+    @OneToOne(mappedBy = "manager")
+    private User user;
 
     public Manager() {
     }
@@ -58,20 +63,25 @@ public class Manager{
         this.lastName = lastName;
     }
 
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Manager manager = (Manager) o;
-        return Objects.equals(id, manager.id) &&
-                Objects.equals(firstName, manager.firstName) &&
-                Objects.equals(middleName, manager.middleName) &&
-                Objects.equals(lastName, manager.lastName);
+        return Objects.equals(id, manager.id) && Objects.equals(firstName, manager.firstName) && Objects.equals(middleName, manager.middleName) && Objects.equals(lastName, manager.lastName) && Objects.equals(contacts, manager.contacts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, middleName, lastName);
+        return Objects.hash(id, firstName, middleName, lastName, contacts);
     }
 
     @Override
@@ -81,6 +91,7 @@ public class Manager{
                 ", firstName='" + firstName + '\'' +
                 ", middleName='" + middleName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", contacts=" + contacts +
                 '}';
     }
 }
