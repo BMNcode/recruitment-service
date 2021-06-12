@@ -2,10 +2,11 @@ package rt.digital.recruitmentservice.domain;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "managers")
-public class Manager extends User{
+public class Manager{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,6 +20,8 @@ public class Manager extends User{
 
     @Column(name = "lastname")
     private String lastName;
+
+    private Set<Contact> contacts;
 
     public Manager() {
     }

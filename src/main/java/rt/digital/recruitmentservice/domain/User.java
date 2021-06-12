@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User {
 
     @Id

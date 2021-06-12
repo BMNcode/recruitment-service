@@ -4,9 +4,10 @@ import java.util.Set;
 
 public class Provider {
     private String firstName;
-    private String middleName;
+    private String middleName; //null
     private String lastName;
-    private String companyName;
+
+    private String companyName; //null
     private Set<Contact> contacts;
     private Set<Employee> employees;
 }
