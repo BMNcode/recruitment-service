@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "providers")
-public class Provider {
+public class Provider extends User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,10 +30,6 @@ public class Provider {
 
     @OneToMany(mappedBy = "provider")
     private Set<Employee> employees;
-
-    @OneToOne(mappedBy = "provider")
-    private User user;
-
 
     public Provider() {
     }

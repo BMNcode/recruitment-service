@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
@@ -26,14 +26,6 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role roles;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_manager", referencedColumnName = "id_manager")
-    private Manager manager;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_provider", referencedColumnName = "id_provider")
-    private Provider provider;
 
     public User() {
     }

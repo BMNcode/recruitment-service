@@ -18,7 +18,7 @@ public class Skill {
     @Column(name = "level_skill")
     private byte skillLevel;
 
-    @ManyToOne
+    @ManyToOne //@ManyToMany
     @JoinColumn(name = "id_employee", nullable = false)
     private Employee employee;
 

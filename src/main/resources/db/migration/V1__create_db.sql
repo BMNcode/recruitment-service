@@ -27,6 +27,7 @@ create table managers (
         firstname       varchar(255),
         lastname        varchar(255),
         middlename      varchar(255),
+        user_id         int8            not null,
                         primary key (id_manager)
 );
 
@@ -43,6 +44,7 @@ create table providers (
         firstname       varchar(255)    not null,
         lastname        varchar(255)    not null,
         middlename      varchar(255),
+        user_id         int8            not null,
                         primary key (id_provider)
 );
 
@@ -60,8 +62,6 @@ create table users (
         password varchar(255) not null,
         role varchar(255) not null,
         status varchar(255) not null,
-        id_manager int8,
-        id_provider int8,
         primary key (user_id)
 );
 
@@ -81,17 +81,18 @@ alter table if exists employees
     add constraint employees_providers_fk
     foreign key (id_provider) references providers;
 
+alter table if exists managers
+    add constraint managers_users_fk
+    foreign key (user_id) references users;
+
+alter table if exists providers
+    add constraint providers_users_fk
+    foreign key (user_id) references users;
+
 alter table if exists skills
     add constraint skills_employees_fk
     foreign key (id_employee) references employees;
 
-alter table if exists users
-    add constraint users_managers_fk
-    foreign key (id_manager) references managers;
-
-alter table if exists users
-    add constraint users_provides_fk
-    foreign key (id_provider) references providers;
 
 
 
