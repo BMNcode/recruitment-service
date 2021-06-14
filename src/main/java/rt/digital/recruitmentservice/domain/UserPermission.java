@@ -1,6 +1,6 @@
 package rt.digital.recruitmentservice.domain;
 
-public enum Permission {
+public enum UserPermission {
 
     ADMIN_READ("admin:read"),
     ADMIN_WRITE("admin:write"),
@@ -9,7 +9,7 @@ public enum Permission {
 
     private final String permission;
 
-    Permission(String permission) {
+    UserPermission(String permission) {
         this.permission = permission;
     }
 

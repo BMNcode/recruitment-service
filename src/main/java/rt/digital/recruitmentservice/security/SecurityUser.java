@@ -3,7 +3,7 @@ package rt.digital.recruitmentservice.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import rt.digital.recruitmentservice.domain.StatusUser;
+import rt.digital.recruitmentservice.domain.UserStatus;
 import rt.digital.recruitmentservice.domain.User;
 
 import java.util.Collection;
@@ -61,10 +61,10 @@ public class SecurityUser implements UserDetails {
     public static UserDetails fromUser(User user) {
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(), user.getPassword(),
-                user.getStatus().equals(StatusUser.ACTIVE),
-                user.getStatus().equals(StatusUser.ACTIVE),
-                user.getStatus().equals(StatusUser.ACTIVE),
-                user.getStatus().equals(StatusUser.ACTIVE),
+                user.getStatus().equals(UserStatus.ACTIVE),
+                user.getStatus().equals(UserStatus.ACTIVE),
+                user.getStatus().equals(UserStatus.ACTIVE),
+                user.getStatus().equals(UserStatus.ACTIVE),
                 user.getRoles().grantedAuthorities()
         );
     }

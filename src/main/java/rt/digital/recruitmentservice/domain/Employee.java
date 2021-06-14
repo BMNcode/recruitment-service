@@ -1,104 +1,73 @@
 package rt.digital.recruitmentservice.domain;
 
 import javax.persistence.*;
-import java.util.Objects;
-import java.util.Set;
+import java.util.Map;
 
 @Entity
 @Table(name = "employees")
-public class Employee{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_employee")
-    private Long id;
-
-    @Column(name = "firstname", nullable = false)
-    private String firstName;
-
-    @Column(name = "middlename")
-    private String middleName;
-
-    @Column(name = "lastname", nullable = false)
-    private String lastName;
+public class Employee extends User {
 
     @Column(name = "hourly_rate", nullable = false)
-    private Double HourlyRate;
+    private Double hourlyRate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_position", referencedColumnName = "id_position")
-    private Position position;
+    @ManyToOne
+    @JoinColumn(name = "position_id", nullable = false)
+    private EmployeePosition employeePosition;
 
-    @OneToMany(mappedBy = "employee")
-    private Set<Skill> skills;
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "employee_status", nullable = false)
+    private EmployeeStatus employeeStatus;
 
-    @Column(name = "note")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "employee_skill_level_skill_mapping",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "skill_level_id", referencedColumnName = "skill_level_id")})
+    @MapKeyJoinColumn(name = "skill_id")
+    private Map<Skill, SkillLevel> employeeSkillLevelMap;
+
+    @Column(name = "manager_note")
     private String note;
 
     @Column(name = "description")
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "id_provider")
+    @JoinColumn(name = "provider_id")
     private Provider provider;
 
     public Employee() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public Double getHourlyRate() {
-        return HourlyRate;
+        return hourlyRate;
     }
 
     public void setHourlyRate(Double hourlyRate) {
-        HourlyRate = hourlyRate;
+        this.hourlyRate = hourlyRate;
     }
 
-    public Position getPosition() {
-        return position;
+    public EmployeePosition getPosition() {
+        return employeePosition;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
+    public void setPosition(EmployeePosition employeePosition) {
+        this.employeePosition = employeePosition;
     }
 
-    public Set<Skill> getSkills() {
-        return skills;
+    public EmployeeStatus getEmployeeStatus() {
+        return employeeStatus;
     }
 
-    public void setSkills(Set<Skill> skills) {
-        this.skills = skills;
+    public void setEmployeeStatus(EmployeeStatus employeeStatus) {
+        this.employeeStatus = employeeStatus;
+    }
+
+    public Map<Skill, SkillLevel> getEmployeeSkillLevelMap() {
+        return employeeSkillLevelMap;
+    }
+
+    public void setEmployeeSkillLevelMap(Map<Skill, SkillLevel> employeeSkillLevelMap) {
+        this.employeeSkillLevelMap = employeeSkillLevelMap;
     }
 
     public String getNote() {
@@ -123,34 +92,5 @@ public class Employee{
 
     public void setProvider(Provider provider) {
         this.provider = provider;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return Objects.equals(id, employee.id) && Objects.equals(firstName, employee.firstName) && Objects.equals(middleName, employee.middleName) && Objects.equals(lastName, employee.lastName) && Objects.equals(HourlyRate, employee.HourlyRate) && Objects.equals(position, employee.position) && Objects.equals(skills, employee.skills) && Objects.equals(note, employee.note) && Objects.equals(description, employee.description) && Objects.equals(provider, employee.provider);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, middleName, lastName, HourlyRate, position, skills, note, description, provider);
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", HourlyRate=" + HourlyRate +
-                ", position=" + position +
-                ", skills=" + skills +
-                ", note='" + note + '\'' +
-                ", description='" + description + '\'' +
-                ", provider=" + provider +
-                '}';
     }
 }

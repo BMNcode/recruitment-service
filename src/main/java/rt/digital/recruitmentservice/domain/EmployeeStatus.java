@@ -1,5 +1,6 @@
 package rt.digital.recruitmentservice.domain;
 
-public enum StatusUser {
-    ACTIVE, BANNED
+public enum EmployeeStatus {
+    FREE,
+    BUSY
 }

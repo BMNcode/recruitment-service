@@ -1,7 +1,8 @@
 package rt.digital.recruitmentservice.domain;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -13,19 +14,37 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
+    @Column(name = "firstname", nullable = false)
+    private String firstName;
+
+    @Column(name = "middlename")
+    private String middleName;
+
+    @Column(name = "lastname", nullable = false)
+    private String lastName;
+
     @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "password", nullable = false)
     private String password;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Contact> contacts;
+
     @Enumerated(value = EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private StatusUser status;
+    private UserStatus status;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private Role roles;
+    private UserRole roles;
+
+    @Column(name = "created", insertable = true, updatable = false)
+    private LocalDateTime created;
+
+    @Column(name = "modified")
+    private LocalDateTime modified;
 
     public User() {
     }
@@ -36,6 +55,30 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -54,44 +97,43 @@ public class User {
         this.password = password;
     }
 
-    public StatusUser getStatus() {
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
+    public UserStatus getStatus() {
         return status;
     }
 
-    public void setStatus(StatusUser status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
 
-    public Role getRoles() {
+    public UserRole getRoles() {
         return roles;
     }
 
-    public void setRoles(Role roles) {
+    public void setRoles(UserRole roles) {
         this.roles = roles;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(email, user.email) &&
-                Objects.equals(password, user.password);
+    public LocalDateTime getCreated() {
+        return created;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(email, password);
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", status=" + status +
-                ", roles=" + roles +
-                '}';
+    public LocalDateTime getModified() {
+        return modified;
+    }
+
+    public void setModified(LocalDateTime modified) {
+        this.modified = modified;
     }
 }

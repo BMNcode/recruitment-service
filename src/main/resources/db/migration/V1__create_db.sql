@@ -33,7 +33,7 @@ create table managers (
 
 create table positions (
         id_position     int8            not null,
-        position        varchar(255)    not null,
+        employeePosition        varchar(255)    not null,
         qualification   varchar(255),
                         primary key (id_position)
 );
@@ -62,6 +62,8 @@ create table users (
         password varchar(255) not null,
         role varchar(255) not null,
         status varchar(255) not null,
+        created timestamp,
+        modified timestamp,
         primary key (user_id)
 );
 
