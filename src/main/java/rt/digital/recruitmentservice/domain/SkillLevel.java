@@ -1,9 +1,10 @@
 package rt.digital.recruitmentservice.domain;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "skill_level")
+@Table(name = "skill_levels")
 public class SkillLevel {
 
     @Id
@@ -14,8 +15,8 @@ public class SkillLevel {
     @Column(name = "number_level")
     private String numberLevel;
 
-    @Column(name = "position_level")
-    private String positionLevel;
+    @Column(name = "qualification_level")
+    private String qualificationLevel;
 
     public SkillLevel() {
     }
@@ -36,11 +37,35 @@ public class SkillLevel {
         this.numberLevel = numberLevel;
     }
 
-    public String getPositionLevel() {
-        return positionLevel;
+    public String getQualificationLevel() {
+        return qualificationLevel;
     }
 
-    public void setPositionLevel(String positionLevel) {
-        this.positionLevel = positionLevel;
+    public void setQualificationLevel(String qualificationLevel) {
+        this.qualificationLevel = qualificationLevel;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SkillLevel that = (SkillLevel) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(numberLevel, that.numberLevel) &&
+                Objects.equals(qualificationLevel, that.qualificationLevel);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, numberLevel, qualificationLevel);
+    }
+
+    @Override
+    public String toString() {
+        return "SkillLevel{" +
+                "id=" + id +
+                ", numberLevel='" + numberLevel + '\'' +
+                ", qualificationLevel='" + qualificationLevel + '\'' +
+                '}';
     }
 }

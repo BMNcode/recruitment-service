@@ -1,99 +1,131 @@
 create sequence hibernate_sequence start 1 increment 1;
 
-create table contacts (
-        id_contact      int8            not null,
-        detail          varchar(255)    not null,
-        type_contact    varchar(255)    not null,
-        id_manager      int8            not null,
-        id_provider     int8            not null,
-                        primary key (id_contact)
+--ENTITY--
+
+create table users (
+	    user_id             int8                not null,
+	    firstname           varchar(40)         not null,
+	    middlename          varchar(40),
+	    lastname            varchar(40)         not null,
+	    email               varchar(40)         not null,
+	    password            varchar(255)        not null,
+	    created             timestamp,
+	    modified            timestamp,
+	    role                varchar(10)         not null,
+	    status              varchar(10)         not null,
+	                        primary key (user_id)
 );
 
 create table employees (
-        id_employee     int8            not null,
-        hourly_rate     float8          not null,
-        description     varchar(255),
-        firstname       varchar(255)    not null,
-        lastname        varchar(255)    not null,
-        middlename      varchar(255),
-        note            varchar(255),
-        id_position     int8,
-        id_provider     int8,
-                        primary key (id_employee)
+        user_id             int8                not null,
+        provider_id         int8                not null,
+        position_id         int8                not null,
+	    employee_status     varchar(10)         not null,
+	    hourly_rate         float8              not null,
+	    manager_note        varchar(1020),
+	    description         varchar(2040),
+	                        primary key (user_id)
 );
 
 create table managers (
-        id_manager      int8            not null,
-        firstname       varchar(255),
-        lastname        varchar(255),
-        middlename      varchar(255),
-        user_id         int8            not null,
-                        primary key (id_manager)
-);
-
-create table positions (
-        id_position     int8            not null,
-        employeePosition        varchar(255)    not null,
-        qualification   varchar(255),
-                        primary key (id_position)
+	    user_id             int8                not null,
+	                        primary key (user_id)
 );
 
 create table providers (
-        id_provider     int8            not null,
-        company         varchar(255),
-        firstname       varchar(255)    not null,
-        lastname        varchar(255)    not null,
-        middlename      varchar(255),
-        user_id         int8            not null,
-                        primary key (id_provider)
+        user_id             int8                not null,
+	    company             varchar(50),
+	                        primary key (user_id)
 );
+
+--MAPPING ENTITY--
+
+create table contacts (
+	    contact_id          int8                not null,
+	    user_id             int8,
+	    contact_type_id     int8                not null,
+	    contact_detail      varchar(50)         not null,
+	                        primary key (contact_id)
+);
+
+create table employee_skill_level_skill_mapping (
+	    user_id             int8                not null,
+	    skill_id            int8                not null,
+	    skill_level_id      int8                not null,
+	                        primary key (user_id, skill_id)
+);
+
+--DICTIONARY--
 
 create table skills (
-        id_skill        int8            not null,
-        level_skill     int2,
-        skill           varchar(255),
-        id_employee     int8            not null,
-                        primary key (id_skill)
+	    skill_id            int8                not null,
+	    skill_name          varchar(15)         not null,
+	    skill_group         varchar(15)         not null,
+	                        primary key (skill_id)
 );
 
-create table users (
-        user_id int8 not null,
-        email varchar(255) not null,
-        password varchar(255) not null,
-        role varchar(255) not null,
-        status varchar(255) not null,
-        created timestamp,
-        modified timestamp,
-        primary key (user_id)
+create table skill_levels (
+	    skill_level_id      int8                not null,
+	    number_level        varchar(255),
+	    qualification_level varchar(255),
+	                        primary key (skill_level_id)
 );
 
-alter table if exists contacts
-    add constraint contacts_managers_fk
-    foreign key (id_manager) references managers;
+create table contact_types (
+	    contact_type_id     int8                not null,
+	    contact_type        varchar(15)         not null,
+	                        primary key (contact_type_id)
+);
+
+create table employee_positions (
+	    position_id         int8                not null,
+	    position            varchar(20)        not null,
+	                        primary key (position_id)
+);
+
+alter table if exists employee_skill_level_skill_mapping
+    add constraint UK_employee_skill_level_skill
+    unique (skill_level_id);
 
 alter table if exists contacts
-    add constraint contacts_providers_fk
-    foreign key (id_provider) references providers;
+    add constraint FK_contacts_contact_types
+    foreign key (contact_type_id) references contact_types;
+
+alter table if exists contacts
+    add constraint FK_contacts_users
+    foreign key (user_id) references users;
+
+alter table if exists employee_skill_level_skill_mapping
+    add constraint FK_employee_skill_level_skill_mapping_skill_levels
+    foreign key (skill_level_id) references skill_levels;
+
+alter table if exists employee_skill_level_skill_mapping
+    add constraint FK_employee_skill_level_skill_mapping_skills
+    foreign key (skill_id) references skills;
+
+alter table if exists employee_skill_level_skill_mapping
+    add constraint FK_employee_skill_level_skill_mapping_employees
+    foreign key (user_id) references employees;
 
 alter table if exists employees
-    add constraint employees_positions_fk
-    foreign key (id_position) references positions;
+    add constraint FK_employees_employee_positions
+    foreign key (position_id) references employee_positions;
 
 alter table if exists employees
-    add constraint employees_providers_fk
-    foreign key (id_provider) references providers;
+    add constraint FK_employees_providers
+    foreign key (provider_id) references providers;
+
+alter table if exists employees
+    add constraint FK_employees_users
+    foreign key (user_id) references users;
 
 alter table if exists managers
-    add constraint managers_users_fk
+    add constraint FK_managers_users
     foreign key (user_id) references users;
 
 alter table if exists providers
-    add constraint providers_users_fk
+    add constraint FK_providers_users
     foreign key (user_id) references users;
-
-alter table if exists skills
-    add constraint skills_employees_fk
-    foreign key (id_employee) references employees;
 
 
 

@@ -6,9 +6,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum UserRole {
-    MANAGER(Set.of(UserPermission.ADMIN_WRITE, UserPermission.ADMIN_READ)),
+
+    MANAGER(Set.of(UserPermission.ADMIN_READ, UserPermission.ADMIN_WRITE)),
     PROVIDER(Set.of(UserPermission.USER_READ, UserPermission.USER_WRITE)),
-    CUSTOMER(Set.of(UserPermission.USER_READ));
+    CUSTOMER(Set.of(UserPermission.USER_READ)),
+    EMPLOYEE(Set.of(UserPermission.USER_READ));
 
     private final Set<UserPermission> userPermissions;
 

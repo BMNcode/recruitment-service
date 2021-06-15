@@ -36,4 +36,21 @@ public class ContactType {
     public void setType(String type) {
         this.type = type;
     }
+
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
+    @Override
+    public String toString() {
+        return "ContactType{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", contacts=" + contacts +
+                '}';
+    }
 }

@@ -65,7 +65,7 @@ public class SecurityUser implements UserDetails {
                 user.getStatus().equals(UserStatus.ACTIVE),
                 user.getStatus().equals(UserStatus.ACTIVE),
                 user.getStatus().equals(UserStatus.ACTIVE),
-                user.getRoles().grantedAuthorities()
+                user.getRole().grantedAuthorities()
         );
     }
 }

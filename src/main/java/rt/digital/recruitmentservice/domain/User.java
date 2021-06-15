@@ -2,6 +2,7 @@ package rt.digital.recruitmentservice.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -38,7 +39,7 @@ public class User {
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private UserRole roles;
+    private UserRole role;
 
     @Column(name = "created", insertable = true, updatable = false)
     private LocalDateTime created;
@@ -47,6 +48,16 @@ public class User {
     private LocalDateTime modified;
 
     public User() {
+    }
+
+    @PrePersist
+    void onCreate() {
+        this.setCreated(LocalDateTime.now());
+        this.setModified(LocalDateTime.now());
+    }
+    @PreUpdate
+    void onUpdate() {
+        this.setModified(LocalDateTime.now());
     }
 
     public Long getId() {
@@ -113,12 +124,12 @@ public class User {
         this.status = status;
     }
 
-    public UserRole getRoles() {
-        return roles;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setRoles(UserRole roles) {
-        this.roles = roles;
+    public void setRoles(UserRole role) {
+        this.role = role;
     }
 
     public LocalDateTime getCreated() {
@@ -135,5 +146,41 @@ public class User {
 
     public void setModified(LocalDateTime modified) {
         this.modified = modified;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(middleName, user.middleName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(created, user.created);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, middleName, lastName, email, password, created);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", contacts=" + contacts +
+                ", status=" + status +
+                ", roles=" + role +
+                ", created=" + created +
+                ", modified=" + modified +
+                '}';
     }
 }

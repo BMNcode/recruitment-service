@@ -5,23 +5,24 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rt.digital.recruitmentservice.domain.User;
+import rt.digital.recruitmentservice.domain.UserRole;
 import rt.digital.recruitmentservice.repository.UserRepository;
 
 import java.util.List;
 
 @RestController
-public class ManagerRestController {
+public class ProviderRestController {
 
     @Autowired
     private final UserRepository userRepository;
 
-    public ManagerRestController(UserRepository userRepository) {
+    public ProviderRestController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/lk_managers")
+    @GetMapping("/lk_providers")
     @PreAuthorize("hasAnyAuthority('admin:read', 'user:read')")
-    List<User> findAll() {
-        return userRepository.findAll();
+    List<User> findAllProviders() {
+        return userRepository.findByRole(UserRole.PROVIDER.name());
     }
 }

@@ -1,7 +1,7 @@
 package rt.digital.recruitmentservice.domain;
 
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "managers")
